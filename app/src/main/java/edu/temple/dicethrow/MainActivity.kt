@@ -18,6 +18,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) == null) {
+            val dieFragment = DieFragment.newInstance(6)
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainerView, dieFragment)
+                .commit()
+        }
+
         findViewById<Button>(R.id.rollDiceButton).setOnClickListener {
             (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as? DieFragment)?.throwDie()
         }

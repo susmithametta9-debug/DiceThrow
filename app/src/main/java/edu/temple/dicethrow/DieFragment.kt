@@ -8,15 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlin.random.Random
 
+private const val DIESIDE = "sidenumber"
+private const val ROLL_KEY = "roll"
+
 class DieFragment : Fragment() {
 
-    private val DIESIDE = "sidenumber"
-    private val ROLL_KEY = "roll"
     private var currentRoll: Int = 0
-
     private lateinit var dieTextView: TextView
-
-    var dieSides: Int = 6
+    var dieSides: Int = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +34,6 @@ class DieFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_die, container, false).apply {
             dieTextView = findViewById(R.id.dieTextView)
         }
@@ -45,9 +43,9 @@ class DieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         if (currentRoll > 0) {
-            throwDie()
-        } else {
             dieTextView.text = currentRoll.toString()
+        } else {
+            throwDie()
         }
 
         view.setOnClickListener {
@@ -63,5 +61,13 @@ class DieFragment : Fragment() {
     fun throwDie() {
         currentRoll = Random.nextInt(1, dieSides + 1)
         dieTextView.text = currentRoll.toString()
+    }
+
+    companion object {
+        fun newInstance(sides: Int) = DieFragment().apply {
+            arguments = Bundle().apply {
+                putInt(DIESIDE, sides)
+            }
+        }
     }
 }
